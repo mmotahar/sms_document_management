@@ -6,6 +6,11 @@ common:
   audit:
     tms_name: sms
 
+    skip_test:
+      project_configuration:
+        - test_exists_project_module
+        - test_exists_project_test
+        - test_exits_odoo_debug_config
 #    # Customize project specific target here
 #    targets:
 #      project_configuration: 90
