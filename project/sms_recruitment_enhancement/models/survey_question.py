@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DF
 from odoo.exceptions import ValidationError
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 try:
     # python2
     from urlparse import urlparse
@@ -51,7 +50,14 @@ class SurveyQuestion(models.Model):
         answer = post[answer_tag]
         # Empty answer to mandatory question
         if self.constr_mandatory and not answer:
-            errors.update({answer_tag: self.constr_error_msg})
+            user_input = self.env['survey.user_input'].sudo().search([
+                ('token', '=', post.get('token', False))], limit=1)
+            answer = self.env['survey.user_input_line'].sudo().search(
+                [('question_id', '=', self.id),
+                 ('user_input_id', '=', user_input and user_input.id or False)
+                 ], limit=1)
+            if any([not answer, answer and not answer.file]):
+                errors.update({answer_tag: self.constr_error_msg})
         return errors
 
     @api.multi

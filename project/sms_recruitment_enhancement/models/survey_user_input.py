@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class SurveyUserInput(models.Model):
@@ -22,20 +22,22 @@ class SurveyUserInput(models.Model):
                     value = uil.value_text \
                         if info != 'Address' else uil.value_free_text
                     basic_info.update({info: value})
-        self.env['hr.applicant'].create({
+        return self.env['hr.applicant'].sudo().create({
             'name': job and job.name or '',
             'partner_name': basic_info.get('Full Name', False),
             'email_from': basic_info.get('Email Address', False),
             'partner_phone': basic_info.get('Contact Number', False),
             'job_id': job and job.id or False,
+            'response_id': self.id
         })
-        return True
 
     @api.multi
     def write(self, vals):
+        print("SurveyUserInput>>>>>>>>>>>survey")
         res = super(SurveyUserInput, self).write(vals)
         if vals.get('state', False) == 'done':
-            self.create_applicant()
+            for rec in self:
+                rec.create_applicant()
         return res
 
     @api.model

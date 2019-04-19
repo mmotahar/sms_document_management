@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_register_wizard_form" model="ir.ui.view">
+            <field name="name">view.employee.register.wizard.form</field>
+            <field name="model">employee.register.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="certificate" />
+                            <field name="date_from" string="Date From"/>
+                            <field name="date_to" string="Date To"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Filter" name="filter_employee_register" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

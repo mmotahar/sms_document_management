@@ -2,17 +2,18 @@
 #    Copyright (C) Ioppolo and Associates (I&A) 2018 (<http://ioppolo.com.au>).
 ##############################################################################
 {
-    "name": "SMS Recruitment Enhancement",
-    "version": "1.0",
+    "name": "SMS Document Management",
+    "version": "12.0.0.1.0",
     "description": """
-This module aims to enhance the features of online recruitment
+This module aims to manage employee's documents
     """,
     "website": "http://ioppolo.com.au",
     "author": "Ioppolo & Associates",
     "category": "Ioppolo & Associates",
     "depends": [
-        "hr_recruitment_survey",
-        "sign",
+        "sms_recruitment_enhancement",
+        "documents",
+        "portal",
     ],
     "data": [
         # ============================================================
@@ -25,30 +26,29 @@ This module aims to enhance the features of online recruitment
         # DATA
         # ============================================================
         # "data/",
-        'data/hr_job_data.xml',
-        'data/sign_data.xml',
-        'data/survey_survey_data.xml',
+        "data/email_template_data.xml",
+        "data/ir_cron_data.xml",
+
+
         # ============================================================
         # VIEWS
         # ============================================================
         # "views/",
-        'views/survey_question_template.xml',
-        'views/survey_user_input_line_view.xml',
-        'views/survey_question_view.xml',
-        'views/survey_result_template.xml',
-        'views/hr_applicant_view.xml',
-        'views/survey_templates.xml',
+        "views/base/ir_attachment_view.xml",
+        "views/hr/hr_employee_view.xml",
+        "views/hr/employee_availability_view.xml",
 
-        # ============================================================
-        # Wizards
-        # ============================================================
-        # 'Wizards/',
-        'wizards/survey_email_compose_message.xml',
+        "views/gantt/web_gantt_templates.xml",
+
+        "wizards/hr/employee_register_wizard_view.xml",
+        "wizards/portal/portal_template.xml",
 
         # ============================================================
         # MENU
         # ============================================================
         # "menu/",
+        "menu/sms_hr_menu.xml",
+        "menu/hr_employee_menu.xml",
 
         # ============================================================
         # FUNCTION USED TO UPDATE DATA LIKE POST OBJECT
@@ -58,7 +58,6 @@ This module aims to enhance the features of online recruitment
 
     "test": [],
     "demo": [],
-    "post_init_hook": "post_init_hook",
     "installable": True,
     "active": False,
     "application": False,

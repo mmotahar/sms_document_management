@@ -29,21 +29,23 @@ class SurveyUserInputLine(models.Model):
         }
         filename = ''
         file = None
-        if post[answer_tag]:
-            file = base64.encodebytes(post[answer_tag].read())
-            filename = post[answer_tag].filename
-        if answer_tag in post:
-            vals.update({
-                'answer_type': 'upload_file',
-                'file': file,
-                'filename': filename})
-        else:
-            vals.update({'answer_type': None, 'skipped': True})
         old_uil = self.search([
             ('user_input_id', '=', user_input_id),
             ('survey_id', '=', question.survey_id.id),
             ('question_id', '=', question.id)
         ])
+
+        if answer_tag in post:
+            if post[answer_tag]:
+                file = base64.encodebytes(post[answer_tag].read())
+                filename = post[answer_tag].filename
+            vals.update({
+                'answer_type': 'upload_file',
+                'file': file or old_uil.file,
+                'filename': filename or old_uil.filename})
+        else:
+            vals.update({'answer_type': None, 'skipped': True})
+
         if old_uil:
             old_uil.write(vals)
         else:

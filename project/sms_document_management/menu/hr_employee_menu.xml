@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem 
+            id="hr_employee_portal_menu"
+            name="Portal"
+            parent="hr.menu_hr_root"
+            sequence="95"
+            action="portal.partner_wizard_action"
+            />
+    </data>
+</odoo>

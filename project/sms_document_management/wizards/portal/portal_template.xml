@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="portal_my_home_menu_certificate" name="Portal layout : certificates menu entries" inherit_id="portal.portal_breadcrumbs" priority="15">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name == 'my_certificates' or certificate" t-attf-class="breadcrumb-item #{'active ' if not certificate else ''}">
+                    <a t-if="certificate" t-attf-href="/my/certificates?{{ keep_query() }}">
+                        Certificates and licenses
+                    </a>
+                    <t t-else="">
+                        Certificates and licenses
+                    </t>
+                </li>
+                <li t-if="certificate" class="breadcrumb-item active">
+                    <span t-field="certificate.name"/>
+                </li>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home_certificate" name="Portal My Home : certificates entries" inherit_id="portal.portal_my_home" priority="40">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-if="certificate_license_count" t-call="portal.portal_docs_entry">
+                    <t t-set="title">Certificates and licenses</t>
+                    <t t-set="url" t-value="'/my/certificates'"/>
+                    <t t-set="count" t-value="certificate_license_count"/>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="portal_my_certificates" name="My certificates and licenses">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Certificates and licenses</t>
+                </t>
+                <t t-if="not certificates">
+                    <p>There are currently no certificates and licenses for your account.</p>
+                </t>
+                <t t-if="certificates" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th>
+                                <span class='d-none d-md-inline'>Name #</span>
+                                <span class='d-block d-md-none'>Ref.</span>
+                            </th>
+                            <th class="text-left">Type</th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="certificates" t-as="certificate">
+                        <tr>
+                            <td><a t-att-href="certificate.get_portal_url()"><t t-esc="certificate.name"/></a></td>
+                            <td class="text-left"><span t-field="certificate.document_type"/></td>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="portal_certificate_detail" name="Certificates details">
+            <t t-call="portal.portal_layout">
+                <t t-set="purchase_order" t-value="order"/>
+                <div id="optional_placeholder"></div>
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4>
+                                        <span t-esc="document.name"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong>Document Type:</strong> <span t-field="document.document_type" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <strong>Certicate Number:</strong> <span t-field="document.cert_number" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong>Date Issue:</strong> <span t-field="document.date_issue" t-options='{"widget": "date"}'/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <strong>High Risk Work Class:</strong> <span t-field="document.high_risk_work_class" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <strong>Expiry Date:</strong> <span t-field="document.expiry_date" t-options='{"widget": "date"}'/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <strong>Drivers License Class:</strong> <span t-field="document.drivers_license_class" />
+                                </div>
+                            </div>
+                        </div>
+                        <!--TODO: Show after resolve problem of access right when post a comment from portal-->
+                        <!--<div class="card-footer">-->
+                        <!--    <div id="document_communication" class="mt-4">-->
+                        <!--        <h2>Communication</h2>-->
+                        <!--        <t t-call="portal.message_thread">-->
+                        <!--            <t t-set="object" t-value="document"/>-->
+                        <!--        </t>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="oe_structure mb32"/>
+            </t>
+        </template>
+
+        <template id="portal_my_documents">
+            <t t-call="portal.portal_layout">
+                <t t-set="additional_title">Your Document Details</t>
+                <br/>
+                <br/>
+                <h3>Your Document</h3>
+                <form method="post">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="row o_portal_details">
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                  <div t-if="error_message" class="alert alert-danger" role="alert">
+                                      <t t-foreach="error_message" t-as="err"><t t-esc="err"/><br /></t>
+                                  </div>
+                                </div>
+                                <div t-attf-class="form-group col-xl-6">
+                                    <label class="col-form-label" for="document_type">Document Type</label>
+                                    <input type="text" t-att-value="document.document_type" id="doc_type_input" t-attf-hidden="hidden"/>
+                                    <select class="form-control" name="document_type" t-att-value="document.document_type" id="doc_type">
+                                        <t t-foreach="document_type_dict.keys()" t-as="document_type_key">
+                                            <option t-att-value="document_type_key" t-att-selected="document.document_type == document_type_key"><t t-esc="document_type_dict[document_type_key]" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div t-attf-class="form-group col-xl-6">
+                                    <label class="col-form-label" for="cert_number">Certicate Number</label>
+                                    <input type="text" name="cert_number" t-attf-class="form-control" t-att-value="document.cert_number" />
+                                </div>
+                                <div t-attf-class="form-group col-xl-6" t-if="document.document_type == 'wah'">
+                                    <label class="col-form-label" for="high_risk_work_class">High Risk Work Class</label>
+                                    <input type="text" t-att-value="document.high_risk_work_class" id="risk_class_val" t-attf-hidden="hidden"/>
+                                    <select class="form-control" name="high_risk_work_class" t-att-value="document.high_risk_work_class" id="risk_class_id">
+                                        <t t-foreach="risk_class_dict.keys()" t-as="risk_class_key">
+                                            <option t-att-value="risk_class_key" t-att-selected="document.high_risk_work_class == risk_class_key"><t t-esc="risk_class_dict[risk_class_key]" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div t-attf-class="form-group col-xl-6">
+                                    <label class="col-form-label" for="date_issue">Date Issue</label>
+                                    <input type="date" name="date_issue" t-attf-class="form-control" t-att-value="document.date_issue" />
+                                </div>
+                                <div t-attf-class="form-group col-xl-6" t-if="document.document_type == 'drivers_license'">
+                                    <label class="col-form-label" for="expiry_date">Expiry Date</label>
+                                    <input type="date" name="expiry_date" t-attf-class="form-control" t-att-value="document.expiry_date" />
+                                </div>
+                                <div t-attf-class="form-group col-xl-6" t-if="document.document_type == 'drivers_license'">
+                                    <label class="col-form-label" for="drivers_license_class">Drivers License Class</label>
+                                    <input type="text" t-att-value="document.drivers_license_class" id="license_class_val" t-attf-hidden="hidden"/>
+                                    <select class="form-control" name="drivers_license_class" t-att-value="document.drivers_license_class" id="drivers_license_class_id">
+                                        <t t-foreach="license_class_dict.keys()" t-as="license_class_key">
+                                            <option t-att-value="license_class_key" t-att-selected="document.drivers_license_class == license_class_key"><t t-esc="license_class_dict[license_class_key]" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="redirect" t-att-value="redirect"/>
+                            </div>
+                            <div class="clearfix">
+                                <button type="submit" class="btn btn-primary float-right mb32 ">
+                                    Confirm
+                                    <span class="fa fa-long-arrow-right" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </t>
+        </template>
+
+    </data>
+</odoo>
