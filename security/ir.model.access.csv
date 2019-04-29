@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_availability_public,access_employee_availability_public,sms_document_management.model_employee_availability,,1,1,1,1

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_availability_tree" model="ir.ui.view">
+            <field name="name">view.employee.availability.tree</field>
+            <field name="model">employee.availability</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id" string="Employee"/>
+                    <field name="customer_id" string="Customer"/>
+                    <field name="start_date" string="Start Date"/>
+                    <field name="end_date" string="End Date"/>
+                    <field name="status" string="Status"/>
+                    <field name="description" string="Description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_employee_availability_form" model="ir.ui.view">
+            <field name="name">view.employee.availability.form</field>
+            <field name="model">employee.availability</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" string="Status" widget="statusbar"
+                            statusbar_visible="contracted,leave"
+                            options="{'clickable': '1', 'fold_field': 'fold'}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" string="Employee"/>
+                                <field name="customer_id" string="Customer"/>
+                            </group>
+                            <group>
+                                <field name="start_date" string="Start Date"/>
+                                <field name="end_date" string="End Date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description" string="Description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Gantt view -->
+        <record id="employee_availability_gantt_view" model="ir.ui.view">
+            <field name="name">employee.availability.gantt</field>
+            <field name="model">employee.availability</field>
+            <field name="arch" type="xml">
+                <gantt type="consolidate"
+                       date_start="start_date"
+                       date_stop="end_date"
+                       fold_last_level="true"
+                       round_dnd_dates="true"
+                       default_group_by="employee_id"
+                       consolidation="number_of_days"
+                       consolidation_max = '{"employee_id": 100}'
+                       string="Day(s)"/>
+            </field>
+        </record>
+
+        <record id="employee_availability_search_view" model="ir.ui.view">
+            <field name="name">employee.availability.search.view</field>
+            <field name="model">employee.availability</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_id" string="Employee"/>
+                    <field name="customer_id" string="Customer"/>
+
+                    <field name="start_date" string="Start Date"/>
+                    <field name="end_date" string="End Date"/>
+
+                    <filter string="Contracted" name="filter_contracted" domain="[('status', '=', 'contracted')]"/>
+                    <filter string="Leave" name="filter_leave" domain="[('status', '=', 'leave')]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_employee" string="Employee" context="{'group_by':'employee_id'}"/>
+                        <filter name="group_customer" string="Customer" context="{'group_by':'customer_id'}"/>
+                        <filter name="group_status" string="Status" context="{'group_by':'status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>
