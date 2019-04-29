@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+##############################################################################
+#    Copyright (C) Ioppolo and Associates (I&A) 2018 (<http://ioppolo.com.au>).
+##############################################################################
 from odoo import api, models
 from odoo.tools import email_split
 from odoo.exceptions import ValidationError

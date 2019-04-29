@@ -30,7 +30,8 @@ class IrAttachment(models.Model):
             ('fork_lift_license', 'Fork Lift License'),
             ('drivers_license', 'Drivers License'),
         ],
-        string='Document Type', track_visibility="onchange", required=False)
+        string='Document Type', track_visibility="onchange")
+
     cert_number = fields.Char(
         string='License / Cert Number', track_visibility="onchange")
     date_issue = fields.Date(

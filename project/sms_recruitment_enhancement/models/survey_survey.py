@@ -138,7 +138,7 @@ class Survey(models.Model):
                             vals1.update({
                                 'validation_email': True,
                                 'help_msg': 'Input must be an email'
-                                })
+                            })
 
                         if bq == 'position_applied_for':
                             vals1.update({'display_mode': 'dropdown'})

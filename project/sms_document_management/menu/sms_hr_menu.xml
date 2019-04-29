@@ -16,14 +16,16 @@
                 (0, 0, {'view_mode': 'form', 'view_id': ref('sms_document_management.view_ir_attachment_form')})]"/>
             <field name="search_view_id" ref="sms_document_management.view_ir_attachment_search"/>
         </record>
+
         <record id="base.action_attachment" model="ir.actions.act_window">
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('sms_document_management.view_ir_attachment_tree')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('sms_document_management.view_ir_attachment_form')})]"/>
             <field name="search_view_id" ref="sms_document_management.view_ir_attachment_search"/>
         </record>
-        <menuitem id="menu_licenses_and_certificates_view"
-            name="Licenses and Certificates"
+
+        <menuitem id="menu_licences_and_certificates_view"
+            name="Licences and Certificates"
             action="action_licenses_and_certificates"
             sequence="10"
             parent="menu_sms_hr_view"/>
@@ -36,6 +38,7 @@
             <field name="view_mode">tree,form,gantt</field>
             <field name="context">{'search_default_group_employee': 1}</field>
         </record>
+
         <menuitem id="menu_employee_availability_view"
             name="Employee Availability"
             action="action_employee_availability"
@@ -51,6 +54,7 @@
             <field name="view_id" ref="view_employee_register_wizard_form" />
             <field name="target">new</field>
         </record>
+
         <menuitem id="menu_employee_register_view"
             name="Employee Register"
             action="action_employee_register_wizard"

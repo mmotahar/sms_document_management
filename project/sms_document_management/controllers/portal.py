@@ -1,6 +1,9 @@
+##############################################################################
+#    Copyright (C) Ioppolo and Associates (I&A) 2018 (<http://ioppolo.com.au>).
+##############################################################################
 from odoo.http import request, route
 from odoo.exceptions import AccessError, MissingError
-from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
+from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo import http, _
 
 

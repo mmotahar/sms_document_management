@@ -50,7 +50,7 @@ class WebsiteSurveyExtend(Survey):
         '/survey/prefill/<model("survey.survey"):survey>/<string:token>',
         '/survey/prefill/<model("survey.survey"):survey>/<string:token>/'
         '<model("survey.page"):page>'],
-                type='http', auth='public', website=True)
+        type='http', auth='public', website=True)
     def prefill(self, survey, token, page=None, **post):
         UserInputLine = request.env['survey.user_input_line']
         ret = {}

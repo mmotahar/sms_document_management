@@ -2,7 +2,7 @@
 #    Copyright (C) Ioppolo and Associates (I&A) 2018 (<http://ioppolo.com.au>).
 ##############################################################################
 
-from odoo import fields, models, api
+from odoo import models, api
 
 
 class ResUsers(models.Model):

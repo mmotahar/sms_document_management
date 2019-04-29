@@ -80,16 +80,26 @@ class HrEmployee(models.Model):
             'sms_document_management.email_template_remind_expiry_documents_to_hr_team')
         if not template:
             return True
-        context = self.env.context.copy()
-        ctx = dict({
-            'datas': datas,
-        })
-        context.update(ctx)
-        mail_id = template.with_context(context).send_mail(self.id, True)
+        mail_id = template.send_mail(self.id, True)
         return mail_id
 
     @api.multi
     def get_expired_documents(self):
+        self.ensure_one()
+        today = datetime.now().date()
+
+        # ============= Get documents need to notify =============
+        domain = [
+            ('active', '=', True),
+            ('employee_id', '=', self.id),
+            ('expiry_date', '!=', None),
+            ('expiry_reminder', '=', True),
+            ('expiry_date', '=', str(today)),
+        ]
+        return self.document_ids.search(domain)
+
+    @api.multi
+    def get_due_to_expery_documents(self):
         self.ensure_one()
         DAYS_OF_WEEK = 7
         today = datetime.now().date()
