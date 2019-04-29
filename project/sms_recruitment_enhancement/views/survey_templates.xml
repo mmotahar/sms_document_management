@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- survey assets  -->
-    <template id="survey_assets_inherit" name="Survey Results assets inherit" inherit_id="survey.survey_assets">
-        <xpath expr="//script[@src='/survey/static/src/js/survey.js']" position="replace">
-            <script type="text/javascript" src="/sms_recruitment_enhancement/static/src/js/survey.js"/>
-        </xpath>
-    </template>
-</odoo>
