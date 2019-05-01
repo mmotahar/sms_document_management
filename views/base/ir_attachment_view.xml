@@ -38,7 +38,7 @@
                             <group string="">
                                 <field name="employee_id" string="Employee"/>
                                 <field name="document_type" string="Document Type"/>
-                                <field name="datas" string="Datas" filename="datas_fname" />
+                                <field name="datas" string="Document" filename="datas_fname" />
                                 <field name="datas_fname" invisible="1" class="oe_inline oe_right"/>
                             </group>
                             <group string="">
