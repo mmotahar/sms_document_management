@@ -6,6 +6,7 @@
     "version": "12.0.0.1.0",
     "description": """
 This module aims to manage employee's documents
+Odoo.sh
     """,
     "website": "http://ioppolo.com.au",
     "author": "Ioppolo & Associates",
